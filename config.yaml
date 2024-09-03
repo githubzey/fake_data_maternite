@@ -1,0 +1,83 @@
+number_of_years: 20 # how many years you want to generate data for (if 3 years you will get tha data for 2021, 2022, 2023)
+yearly_record_number: 200 # how many records you want to generate data per year
+deviation: 30 # the deviation of number of records per year -+
+
+# liste_columns_info
+liste_num_CMD: ["C1", "C2"]
+liste_num_GHM: ["GHM1", "GHM2"]
+liste_grp_code_retour: [" 00"]
+liste_Num_FINESS_inscription_ePMSI: ["350000022"]
+liste_sexe: ["1", "2", "3"]
+liste_Type_autorisation_lit_dedie: ["  "]
+liste_Mode_entree_unite_medicale: ["6", "7", "0", "8", "N", "O"]
+liste_Provenance_mode_entree: ["1", "R", "2", "3", "4", "6", "7"]
+liste_Mode_sortie_unite_medicale: ["6", "7", "0", "8", "9"]
+liste_Destination_mode_sortie: ["1", "2", "3", "4", "6", "7"]
+liste_Code_postal_residence: ["XXXXX"]
+liste_Diagnostic_principal: ["DP1", "DP2", "DP3"]
+liste_Diagnostic_relier: ["DR1", "DR2", "DR3"]
+liste_Confirmation_codage_RSS: ["0", "1"]
+liste_Type_machine_radiotherapie: ["1", "2", "3", "4"]
+liste_Conversion_hospitalisation_complete: ["1", "2"]
+liste_Prise_en_charge_RAAC: ["1", "2"]
+liste_Contexte_patient_surveillance_particuliere: ["1", "2"]
+liste_Administration_produit_RH: ["1", "2"]
+liste_Rescrit_tarifaire: ["1", "2"]
+liste_Categorie_nombre_interventions_totales: ["A", "B", "C"]
+liste_Non_Programme_NP: ["1", "2"]
+liste_Passage_structure_urgences: ["5", "U", "V"]
+
+# da
+liste_da: ["da1", "da2"]
+# dad 
+liste_dad: ["dad1", "dad2"]
+
+# za_columns_info
+liste_Code_CCAM: ["CodeCCAM1"]
+liste_Extension_PMSI: ["PMS"]
+liste_Phase: ["P"]
+liste_Activite: ["A"]
+liste_Extension_documentaire: ["E"]
+liste_Modificateurs: ["modi"]
+liste_Remboursement_exceptionnel: ["R"]
+liste_Association_non_prevue: ["A"]
+
+# if not a liste
+not_liste: [""]
+
+
+# Constant columns (to define some constant values for some columns)
+Groupage_version_classification: "11"
+Filler: " "
+Filler_2:  "    "
+Num_version_format_RSS: "122"
+#Groupage_code_retour: " 00"
+#Num_FINESS_inscription_ePMSI: "350000022"
+Version_format_RUM: "022"
+Sexe: "2"
+Code_postal_residence: "XXXXX"
+Date_dernières_regles: "        "
+#Type_autorisation_lit_dedie: "  "
+Num_innovation: "               "
+
+#en grammes
+poids_nouveau_ne_min:  1000 
+poids_nouveau_ne_max:  6000
+
+# en semaines
+age_gestationnel_min: 0
+age_gestationnel_max: 6
+
+min_days_diff: 1 # min differrence days between Date_entree_unite_medicale and Date_sortie_unite_medicale
+max_days_diff: 30 # max differrence days between Date_entree_unite_medicale and Date_sortie_unite_medicale
+min_age: 18 # min age of patient
+max_age: 60 # max age of patient
+
+min_num_da: 0 # min Nombre_diagnostics_associes
+max_num_da: 10 # max Nombre_diagnostics_associes
+
+min_num_dad: 0 # min Nombre_donnees_documentaires
+max_num_dad: 10 # max Nombre_donnees_documentaires
+
+min_num_za: 0 # min Nombre_zones_actes
+max_num_za: 10 # max Nombre_zones_actes
