@@ -8,8 +8,7 @@ This repository contains scripts and configuration files for generating fake dat
   
 - **`config.yaml`**: This configuration file defines the columns that require specific lists of values and includes constant values for other columns used in the data generation process.
 
-- **`parse.py`**: This script is used to parse the generated data, specifically extracting the first 192 characters from each record.
 
 ## Usage
 
-To generate fake data, adjust the configurations in `config.yaml` as needed, and then run `fake_data_generator.py`. If you need to parse the generated data, use the `parse.py` script.
+To generate fake data, adjust the configurations in `config.yaml` as needed, and then run `fake_data_generator.py`. 
