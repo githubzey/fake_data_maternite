@@ -58,7 +58,7 @@ Num_version_format_RSS: "122"
 Version_format_RUM: "022"
 Sexe: "2"
 Code_postal_residence: "XXXXX"
-Date_dernières_regles: "        "
+# Date_dernières_regles: "        "
 #Type_autorisation_lit_dedie: "  "
 Num_innovation: "               "
 
