@@ -3,7 +3,7 @@ from faker import Faker
 import random
 from datetime import datetime, timedelta
 import yaml
-path_config = "/Users/zeynep/Desktop/interhop/datathon/maternite/config.yaml"
+path_config = "config.yaml"
 with open(path_config, 'r') as file:
     configs = yaml.safe_load(file)
 
@@ -488,13 +488,13 @@ def generate_yearly_fake_data(year, num_records):
     df["Version_format_RUM"] = configs["Version_format_RUM"]
     df["Sexe"] = configs["Sexe"]
     df["Code_postal_residence"] = configs["Code_postal_residence"]
-    df["Date_dernières_regles"] = configs["Date_dernières_regles"]
+    #df["Date_dernières_regles"] = configs["Date_dernières_regles"]
     #df["Type_autorisation_lit_dedie"] = configs["Type_autorisation_lit_dedie"]
     df["Num_innovation"] = configs["Num_innovation"]
 
     return df
 
-# An example data for 20 years 
+# An example data for 2023 
 number_of_years = configs["number_of_years"] # how many years you want to generate data for (if 3 years you will get tha data for 2021, 2022, 2023)
 yearly_record_number = configs['yearly_record_number'] # how many records you want to generate data per year
 deviation = configs['deviation'] # the deviation of number of records per year -+
@@ -507,10 +507,10 @@ for year in range(2024 - number_of_years, 2024):
     main_df = pd.concat([main_df, df2])
    
 
-main_df.to_csv("csv_fake_data_twenty_years_1.csv", index=False, sep=",", encoding="utf-8")
+main_df.to_csv("csv_fake_data_for_2023.csv", index=False, sep=",", encoding="utf-8")
 
 # Convert the dataframe to txt file
 test_df = main_df.astype(str).agg(''.join, axis=1)
-test_df.to_csv("txt_fake_data_twenty_years_1.txt", header=False, index=False, sep=",", encoding="utf-8")
+test_df.to_csv("txt_fake_data_for_2023.txt", header=False, index=False, sep=",", encoding="utf-8")
 
-print("fake data generated for twenty years_1")
+print("fake data generated for 2023")

@@ -1,5 +1,5 @@
-number_of_years: 20 # how many years you want to generate data for (if 3 years you will get tha data for 2021, 2022, 2023)
-yearly_record_number: 200 # how many records you want to generate data per year
+number_of_years: 1 # how many years you want to generate data for (if 3 years you will get tha data for 2021, 2022, 2023)
+yearly_record_number: 5000 # how many records you want to generate data per year
 deviation: 30 # the deviation of number of records per year -+
 
 # liste_columns_info
@@ -28,12 +28,14 @@ liste_Non_Programme_NP: ["1", "2"]
 liste_Passage_structure_urgences: ["5", "U", "V"]
 
 # da
-liste_da: ["da1", "da2"]
+liste_da: ["da1", "da2", "Z370", "Z371", "Z372", "Z373", "Z374", "Z375", "Z376", "Z377", "Z379", "Z3710", "Z3711", "Z3730", "Z3731", "Z3740", "Z3741", "Z3760", "Z3761", "Z3770", "P220", "P221", "P228", "P229", "O720", "Z391", "Z372", "Z373", "Z374", "O318", "O300", "P015", "O661"]
+
 # dad 
 liste_dad: ["dad1", "dad2"]
 
 # za_columns_info
-liste_Code_CCAM: ["CodeCCAM1"]
+liste_Code_CCAM: ['JQGD001', 'JQGD002', 'JQGD003', 'JQGD004', 'JQGD005', 'JQGD007', 'JQGD008', 'JQGD010', 'JQGD012', 'JQGD013', 'JQGA002', 'JQGA003', 'JQGA004', 'JQGA005', 'JQGD006', 'JQGD009', 'JQGD011', 'JMPA006', 'AFLB010']
+
 liste_Extension_PMSI: ["PMS"]
 liste_Phase: ["P"]
 liste_Activite: ["A"]
@@ -61,17 +63,17 @@ Date_dernières_regles: "        "
 Num_innovation: "               "
 
 #en grammes
-poids_nouveau_ne_min:  1000 
+poids_nouveau_ne_min:  1500 
 poids_nouveau_ne_max:  6000
 
 # en semaines
-age_gestationnel_min: 0
-age_gestationnel_max: 6
+age_gestationnel_min: 25
+age_gestationnel_max: 46
 
 min_days_diff: 1 # min differrence days between Date_entree_unite_medicale and Date_sortie_unite_medicale
 max_days_diff: 30 # max differrence days between Date_entree_unite_medicale and Date_sortie_unite_medicale
-min_age: 18 # min age of patient
-max_age: 60 # max age of patient
+min_age: 0 # min age of patient
+max_age: 55 # max age of patient
 
 min_num_da: 0 # min Nombre_diagnostics_associes
 max_num_da: 10 # max Nombre_diagnostics_associes
