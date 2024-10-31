@@ -64,16 +64,23 @@ Num_innovation: "               "
 
 #en grammes
 poids_nouveau_ne_min:  1500 
-poids_nouveau_ne_max:  6000
+poids_nouveau_ne_max:  5500
 
 # en semaines
 age_gestationnel_min: 25
-age_gestationnel_max: 46
+age_gestationnel_max: 44
+
+
+date_ddr_start: "2022-01-01"
+date_ddr_end: "2023-12-31"
 
 min_days_diff: 1 # min differrence days between Date_entree_unite_medicale and Date_sortie_unite_medicale
 max_days_diff: 30 # max differrence days between Date_entree_unite_medicale and Date_sortie_unite_medicale
-min_age: 0 # min age of patient
-max_age: 55 # max age of patient
+
+# date ranges for birth dates for babies 
+date_naissance_start: "2023-01-01"
+date_naissance_end: "2023-12-31"
+
 
 min_num_da: 0 # min Nombre_diagnostics_associes
 max_num_da: 10 # max Nombre_diagnostics_associes
