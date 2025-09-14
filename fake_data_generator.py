@@ -1,9 +1,10 @@
 import pandas as pd
+import numpy as np
 from faker import Faker
 import random
 from datetime import datetime, timedelta
 import yaml
-path_config = "config.yaml"
+path_config = "2024_config.yaml"
 with open(path_config, 'r') as file:
     configs = yaml.safe_load(file)
 
@@ -20,10 +21,13 @@ weights_num_CDGHM = configs["weights_num_CDGHM"]
 
 liste_grp_code_retour = configs["liste_grp_code_retour"]
 liste_Num_FINESS_inscription_ePMSI = configs["liste_Num_FINESS_inscription_ePMSI"]
+weights_Num_FINESS = configs["weights_Num_FINESS"]
 liste_sexe = configs["liste_sexe"]
 liste_Type_autorisation_lit_dedie = configs["liste_Type_autorisation_lit_dedie"]
-liste_Mode_entree_unite_medicale = configs["liste_Mode_entree_unite_medicale"]
 liste_Provenance_mode_entree = configs["liste_Provenance_mode_entree"]
+
+liste_Mode_entree_unite_medicale = configs["liste_Mode_entree_unite_medicale"]
+weights_Mode_entree_unite_medicale = configs["weights_Mode_entree_unite_medicale"]
 
 liste_Mode_sortie_unite_medicale = configs["liste_Mode_sortie_unite_medicale"]
 weights_Mode_sortie_unite_medicale = configs["weights_Mode_sortie_unite_medicale"]
@@ -31,8 +35,10 @@ weights_Mode_sortie_unite_medicale = configs["weights_Mode_sortie_unite_medicale
 liste_Destination_mode_sortie = configs["liste_Destination_mode_sortie"]
 liste_Code_postal_residence = configs["liste_Code_postal_residence"]
 
-liste_Diagnostic_principal = configs["liste_Diagnostic_principal"]
-weights_Diagnostic_principal = configs["weights_Diagnostic_principal"]
+liste_dp_mother = configs["liste_Diagnostic_principal_mother"]
+weights_dp_mother = configs["weights_Diagnostic_principal_mother"]
+liste_dp_baby = configs["liste_Diagnostic_principal_baby"]
+weights_dp_baby = configs["weights_Diagnostic_principal_baby"]
 
 liste_Diagnostic_relier = configs["liste_Diagnostic_relier"]
 weights_Diagnostic_relier = configs["weights_Diagnostic_relier"]
@@ -53,16 +59,21 @@ liste_Non_Programme_NP = configs["liste_Non_Programme_NP"]
 liste_Passage_structure_urgences = configs["liste_Passage_structure_urgences"]
 
 # da
-liste_da = configs["liste_da"]
-weights_da = configs["weights_da"]
+
+liste_da_mother = configs["liste_da_mother"]
+weights_da_mother = configs["weights_da_mother"]
+liste_da_baby = configs["liste_da_baby"]
+weights_da_baby = configs["weights_da_baby"]
 
 # dad 
 liste_dad = configs["liste_dad"]
 weights_dad = configs["weights_dad"]
 
 # za_columns_info
-liste_Code_CCAM = configs["liste_Code_CCAM"]
-weights_CCAM = configs["weights_CCAM"]
+liste_Code_CCAM_mother = configs["liste_Code_CCAM_mother"]
+weights_Code_CCAM_mother = configs["weights_Code_CCAM_mother"]
+liste_Code_CCAM_baby = configs["liste_Code_CCAM_baby"]
+weights_Code_CCAM_baby = configs["weights_Code_CCAM_baby"]
 
 liste_Extension_PMSI = configs["liste_Extension_PMSI"]
 liste_Phase = configs["liste_Phase"]
@@ -86,7 +97,7 @@ columns_info = [
     ("Filler", 1, "A*", "Gauche/Espace", not_liste, not_weights),
     ("Num_version_format_RSS", 3, "A", "NA/NA", not_liste, not_weights),
     ("Groupage_code_retour", 3, "A", "NA/NA", liste_grp_code_retour, not_weights),
-    ("Num_FINESS_inscription_ePMSI", 9, "A", "NA/NA", liste_Num_FINESS_inscription_ePMSI, not_weights),
+    ("Num_FINESS_inscription_ePMSI", 9, "A", "NA/NA", liste_Num_FINESS_inscription_ePMSI, weights_Num_FINESS),
     ("Version_format_RUM", 3, "A", "NA/NA", not_liste, not_weights),
     ("Num_RSS", 20, "N", "Droite/Zéro", not_liste, not_weights),
     # ("Num_RSS", 20, "A*", "Gauche/Espace"),
@@ -99,7 +110,7 @@ columns_info = [
     ("Num_unite_medicale", 4, "A*", "Gauche/Espace", not_liste, not_weights),
     ("Type_autorisation_lit_dedie", 2, "A*", "Gauche/Espace", liste_Type_autorisation_lit_dedie, not_weights),
     ("Date_entree_unite_medicale", 8, "Date", "NA/NA", not_liste, not_weights),
-    ("Mode_entree_unite_medicale", 1, "A", "NA/NA", liste_Mode_entree_unite_medicale, not_weights),
+    ("Mode_entree_unite_medicale", 1, "A", "NA/NA", liste_Mode_entree_unite_medicale, weights_Mode_entree_unite_medicale),
     ("Provenance_mode_entree", 1, "A*", "Gauche/Espace", liste_Provenance_mode_entree, not_weights),
     ("Date_sortie_unite_medicale", 8, "Date", "NA/NA", not_liste, not_weights),
     ("Mode_sortie_unite_medicale", 1, "A", "NA/NA", liste_Mode_sortie_unite_medicale, weights_Mode_sortie_unite_medicale),
@@ -113,7 +124,7 @@ columns_info = [
     ("Nombre_diagnostics_associes", 2, "N", "Droite/Zéro", not_liste, not_weights),
     ("Nombre_donnees_documentaires", 2, "N", "Droite/Zéro", not_liste, not_weights),
     ("Nombre_zones_actes", 3, "N", "Droite/Zéro", not_liste, not_weights),
-    ("Diagnostic_principal", 8, "A*", "Gauche/Espace", liste_Diagnostic_principal, weights_Diagnostic_principal),
+    ("Diagnostic_principal", 8, "A*", "Gauche/Espace", not_liste, not_weights),
     ("Diagnostic_relier", 8, "A*", "Gauche/Espace", liste_Diagnostic_relier, weights_Diagnostic_relier),
     ("IGS_2", 3, "N", "Droite/Espace", liste_igs, weights_igs),
     #("IGS_2", 3, "N", "Droite/Zéro", liste_igs, weights_igs),
@@ -135,7 +146,7 @@ columns_info = [
 
 za_columns_info = [
     ("Date_realisation", 8, "Date", "NA/NA", not_liste, not_weights),
-    ("Code_CCAM", 7, "A", "NA/NA", liste_Code_CCAM, weights_CCAM),
+    ("Code_CCAM", 7, "A", "NA/NA", not_liste, not_weights),
     ("Extension_PMSI", 3,	"A**", "NA/Espace", liste_Extension_PMSI, not_weights),
     ("Phase", 1, "A*", "NA/NA", liste_Phase, not_weights),
     ("Activite", 1, "A*", "NA/NA", liste_Activite, not_weights),
@@ -147,16 +158,16 @@ za_columns_info = [
 ]
 
 
-listed_columns_info = ["Groupage_num_CMD", "Num_GHM", "Num_CDGHM", "Groupage_code_retour", "Num_FINESS_inscription_ePMSI", "Sexe",
+listed_columns_info = ["Groupage_num_CMD", "Num_CDGHM", "Num_GHM", "Groupage_code_retour", "Num_FINESS_inscription_ePMSI", "Sexe",
                        "Type_autorisation_lit_dedie", "Mode_entree_unite_medicale", "Provenance_mode_entree", 
                        "Mode_sortie_unite_medicale", 
-                       "Destination_mode_sortie",  "Code_postal_residence", "Diagnostic_principal", "Diagnostic_relier", "IGS_2",
+                       "Destination_mode_sortie",  "Code_postal_residence", "Diagnostic_relier", "IGS_2",
                        "Confirmation_codage_RSS", "Type_machine_radiotherapie", "Type_dosimetrie", 
                        "Conversion_hospitalisation_complete", "Prise_en_charge_RAAC",
                        "Contexte_patient_surveillance_particuliere", "Administration_produit_RH", "Rescrit_tarifaire", 
                        "Categorie_nombre_interventions_totales", "Non_Programme_NP", "Passage_structure_urgences"]
                         
-listed_za_columns_info = ["Code_CCAM", "Extension_PMSI", "Phase", "Activite", "Modificateurs", "Remboursement_exceptionnel" ]
+listed_za_columns_info = ["Extension_PMSI", "Phase", "Activite", "Modificateurs", "Remboursement_exceptionnel" ]
 
 # Function to format data according to Cadrage/Remplissage rules
 
@@ -273,27 +284,9 @@ age_gestationnel_min = int(configs["age_gestationnel_min"])
 age_gestationnel_max = int(configs["age_gestationnel_max"])
 
 
-# def generate_age_gestationnel(length, fill_type, min_value=age_gestationnel_min, max_value=age_gestationnel_max):
-#     # Decide if the generated age should be full-term or preterm based on probability
-#     is_full_term = random.random() < 0.98  # 98% chance for full-term
-#     
-#     if is_full_term:
-#         # Generate a full-term age between 37 and max_value
-#         age = fake.random_int(min=37, max=max_value)
-#     else:
-#         # Generate a preterm age between min_value and 36
-#         a# ge = fake.random_int(min=min_value, max=36)
-# 
-#     return format_data(age, length, fill_type)
-
 def generate_age_gestationnel(length, fill_type):
-    semaine_groups = ['40.0', '39.0', '41.0', '38.0', '0.0', '37.0', '6.0', '36.0', '7.0',
-                       '35.0', '5.0', '34.0', '8.0', '10.0', '9.0', '33.0', '11.0', '42.0',
-                         '12.0', '32.0', '31.0', '30.0', '20.0', '17.0', '26.0', '13.0', '29.0',
-                           '28.0', '14.0', '15.0', '21.0', '18.0', '25.0', '24.0', '19.0', '16.0', '27.0', '23.0']
-    semaine_weights = [19.73, 18.88, 15.64, 13.28, 8.47, 5.79, 2.31, 2.04, 1.94, 1.64, 1.5,
-                        1.3, 1.23, 0.69, 0.56, 0.49, 0.44, 0.44, 0.42, 0.37, 0.34, 0.32, 0.22,
-                          0.22, 0.2, 0.2, 0.2, 0.2, 0.17, 0.17, 0.12, 0.1, 0.1, 0.07, 0.07, 0.05, 0.05, 0.05]
+    semaine_groups = ['40.0', '39.0', '41.0', '38.0', '37.0', '36.0', '35.0', '34.0', '42.0', '33.0', '0.0', '30.0', '32.0', '26.0', '28.0', '29.0', '31.0', '23.0']
+    semaine_weights = [24.58, 23.33, 19.68, 16.45, 7.48, 2.39, 2.09, 1.79, 0.72, 0.48, 0.36, 0.24, 0.12, 0.06, 0.06, 0.06, 0.06, 0.06]
  
         
     baby_age = random.choices(semaine_groups, weights=semaine_weights, k=1)[0]
@@ -304,12 +297,11 @@ date_naissance_start = datetime.strptime(configs["date_naissance_start"], "%Y-%m
 date_naissance_end = datetime.strptime(configs["date_naissance_end"], "%Y-%m-%d")
 
 
-
-def generate_date_naissance(length, fill_type, date_naissance_start, date_naissance_end, baby_percentage=0.41):
+def generate_date_naissance(num_cdghm,length, fill_type, date_naissance_start, date_naissance_end):
     # Decide if the entry should be a baby or a mother based on the given percentage
-    is_baby = random.random() < baby_percentage
+     # récupérer le CDGHM et le normaliser en string
 
-    if is_baby:
+    if num_cdghm.startswith("15"):
         # Generate a birth date for the baby within the specified date range (e.g., within 2023)
         date_naissance = fake.date_between(start_date=date_naissance_start, end_date=date_naissance_end)
     else:
@@ -335,7 +327,42 @@ def generate_date_naissance(length, fill_type, date_naissance_start, date_naissa
     # Format the date and return it
     return format_data(date_naissance.strftime("%d%m%Y"), length, fill_type)
 
+def generate_diagnostic_principal(num_cdghm,length, fill_type, liste_dp_mother, weights_dp_mother, 
+                                  liste_dp_baby, weights_dp_baby):
 
+    if num_cdghm.startswith("15"):
+
+        diagnostic_principal = with_weights_random_choice_from_liste(length, fill_type, liste_dp_baby, weights_dp_baby)
+    else:
+        
+        diagnostic_principal = with_weights_random_choice_from_liste(length, fill_type, liste_dp_mother, weights_dp_mother)
+
+   
+    return diagnostic_principal
+
+def generate_diagnostic_assosicie(num_cdghm,length, fill_type, liste_da_mother, weights_da_mother, 
+                                  liste_da_baby, weights_da_baby):
+
+    if num_cdghm.startswith("15"):
+
+        diagnostic_assosicie = with_weights_random_choice_from_liste(length, fill_type, liste_da_baby, weights_da_baby)
+    else:
+        
+        diagnostic_assosicie = with_weights_random_choice_from_liste(length, fill_type, liste_da_mother, weights_da_mother)
+
+    return diagnostic_assosicie
+
+def generate_Code_CCAM(num_cdghm,length, fill_type, liste_Code_CCAM_mother, weights_Code_CCAM_mother, 
+                                  liste_Code_CCAM_baby, weights_Code_CCAM_baby):
+
+    if num_cdghm.startswith("15"):
+
+        Code_CCAM = with_weights_random_choice_from_liste(length, fill_type, liste_Code_CCAM_baby, weights_Code_CCAM_baby)
+    else:
+        
+        Code_CCAM = with_weights_random_choice_from_liste(length, fill_type, liste_Code_CCAM_mother, weights_Code_CCAM_mother)
+
+    return Code_CCAM
 
 date_ddr_start = datetime.strptime(configs["date_ddr_start"], "%Y-%m-%d")
 date_ddr_end = datetime.strptime(configs["date_ddr_end"], "%Y-%m-%d")
@@ -344,14 +371,6 @@ date_ddr_end = datetime.strptime(configs["date_ddr_end"], "%Y-%m-%d")
 def generate_date_derniere_regle(length, fill_type, date_ddr_start, date_ddr_end):
     return format_data(fake.date_between(start_date=date_ddr_start, end_date=date_ddr_end).strftime("%d%m%Y"), length, fill_type)
 
-# def generate_diagnostic_principal(length, fill_type):
-#     return format_data(random.choice(configs["liste_diagnostic_principal"]), length, fill_type)
-
-# def generate_diagnostic_relier(length, fill_type):
-#     return format_data(random.choice(["FFF", "GGG", "HHH"]), length, fill_type)
-
-def generate_diagnostic_assosicie(length, fill_type):
-    return format_data(random.choices(liste_da, weights=weights_da)[0], length, fill_type)
 
 def generate_donnees_documentaire(length, fill_type):
     return format_data(random.choices(liste_dad, weights=weights_dad)[0], length, fill_type)
@@ -364,6 +383,11 @@ def generate_zones_acte(row):
             start_date = datetime.strptime(row["Date_entree_unite_medicale"], "%d%m%Y")
             end_date = datetime.strptime(row["Date_sortie_unite_medicale"], "%d%m%Y")
             za_str += format_data(fake.date_between(start_date=start_date, end_date=end_date).strftime("%d%m%Y"), length, fill_type)
+        
+        elif column_name == "Code_CCAM":
+            za_str += generate_Code_CCAM(row["Num_CDGHM"],length, fill_type, liste_Code_CCAM_mother, weights_Code_CCAM_mother, 
+                                  liste_Code_CCAM_baby, weights_Code_CCAM_baby)
+
 
         elif column_name in listed_za_columns_info:
             
@@ -381,8 +405,14 @@ def add_dynamic_fields(row):
     das, dads, zas =["", "", ""]
     
     #generate DAs
+    # for i in range(int(row["Nombre_diagnostics_associes"])):
+    #     das += generate_diagnostic_assosicie(8, "Gauche/Espace")
+       
+        
     for i in range(int(row["Nombre_diagnostics_associes"])):
-        das += generate_diagnostic_assosicie(8, "Gauche/Espace")
+        das += generate_diagnostic_assosicie(row["Num_CDGHM"], 8, "Gauche/Espace",
+                                              liste_da_mother, weights_da_mother, 
+                                  liste_da_baby, weights_da_baby)
 
     dyn_col += das
     
@@ -418,8 +448,7 @@ def generate_yearly_fake_data(year, num_records):
             "end_date": datetime(year, 12, 31),
         },
         "Date_sortie_unite_medicale": {"min_days_diff": min_days_diff, "max_days_diff": max_days_diff},
-        #"Age_gestationnel": {"min_value": age_gestationnel_min, "max_value": age_gestationnel_max},
-        # Add more ranges as needed
+        
     }
 
     # Initialize the data dictionary
@@ -427,6 +456,8 @@ def generate_yearly_fake_data(year, num_records):
 
     # Generate data for each column based on information and rules provided
     for column_name, length, data_type, fill_type, liste, weights in columns_info:
+
+
         if column_name == "Date_entree_unite_medicale":
             start_date = value_ranges[column_name]["start_date"]
             end_date = value_ranges[column_name]["end_date"]
@@ -443,9 +474,6 @@ def generate_yearly_fake_data(year, num_records):
             ]
 
         elif column_name in listed_columns_info:
-
-            #data[column_name] = [with_weights_random_choice_from_liste(length, fill_type, liste, weights)
-            #                    for _ in range(num_records)]
 
 
             # Prepopulate mandatory values to ensure all appear (without randomness)
@@ -513,15 +541,15 @@ def generate_yearly_fake_data(year, num_records):
         
         elif column_name == "Date_naissance":
             
-            data[column_name] = [generate_date_naissance(length, fill_type, date_naissance_start, date_naissance_end) for _ in range(num_records)]
-            ## Load start and end dates from config and parse as datetime objects
-            #date_naissance_start = value_ranges[column_name]["date_naissance_start"]
-            #date_naissance_end = value_ranges[column_name]["date_naissance_end"]
-            #data[column_name] = [
-            #    format_data(fake.date_between(start_date=date_naissance_start, end_date=date_naissance_end).strftime("%d%m%Y"), length, fill_type)
-            #    for _ in range(num_records)
-            #        ]
-        
+            data[column_name] = [generate_date_naissance(data["Num_CDGHM"][i], length, fill_type, date_naissance_start, date_naissance_end)
+                                  for i in range(num_records)]
+           
+        elif column_name == "Diagnostic_principal":
+            
+            data[column_name] = [generate_diagnostic_principal(data["Num_CDGHM"][i], length, fill_type, liste_dp_mother, weights_dp_mother, 
+                                  liste_dp_baby, weights_dp_baby)
+                                  for i in range(num_records)]
+            
         elif column_name == "Provenance_mode_entree":
             data[column_name] = [
                 generate_provenance(
@@ -580,20 +608,7 @@ def generate_yearly_fake_data(year, num_records):
         #     data[column_name] = [
         #         generate_sexe(length, fill_type) for _ in range(num_records)
         #     ]
-        # elif column_name == "Mode_entree_unite_medicale":
-        #     data[column_name] = [
-        #         generate_mode_entree(length, fill_type) for _ in range(num_records)
-        #     ]
-        #  elif column_name == "Mode_sortie_unite_medicale":
-        #     data[column_name] = [
-        #         generate_mode_sortie(length, fill_type) for _ in range(num_records)
-        #     ]
-
-        # elif column_name == "Code_postal_residence":
-        #     data[column_name] = [
-        #         generate_code_postal(length, fill_type) for _ in range(num_records)
-        #     ]
-
+       
         # elif column_name == "Diagnostic_principal":
         #     data[column_name] = [
         #         generate_diagnostic_principal(length, fill_type) for _ in range(num_records)
@@ -639,8 +654,13 @@ def generate_yearly_fake_data(year, num_records):
         formatted_poids = format_data(str(poids), 4, "Droite/Espace")
         return formatted_poids
 
-
     df["Poids_nouveau_ne_entree_unite_medicale"] = df["Age_gestationnel"].apply(modify_poids_nouveau_ne)
+    mask_mother = df["Num_CDGHM"].astype(str).str.strip().str.startswith("14")
+    poids_vide = format_data("", 4, "Droite/Espace")  
+    df["Poids_nouveau_ne_entree_unite_medicale"] = np.where(
+        mask_mother,
+        poids_vide,  #if mother
+    df["Poids_nouveau_ne_entree_unite_medicale"])  # sinon on garde le poids calculé
     df["Age_gestationnel"] = df["Age_gestationnel"].apply(lambda x: format_data(str(x), 2, "Droite/Espace"))
     df["Groupage_version_classification"] = configs["Groupage_version_classification"]
     df["Filler"] = configs["Filler"]
@@ -664,16 +684,22 @@ deviation = configs['deviation'] # the deviation of number of records per year -
 
 main_df = pd.DataFrame()
 
+#for year in range(2025 - number_of_years, 2025):
 for year in range(2024 - number_of_years, 2024):
     df2 = generate_yearly_fake_data(year, random.randrange(yearly_record_number - deviation, yearly_record_number + deviation))
     df2["dynamic_cols"] = df2.apply(add_dynamic_fields, axis=1)
     main_df = pd.concat([main_df, df2])
+    main_df = main_df.sort_values(by=["Num_FINESS_inscription_ePMSI", "Date_entree_unite_medicale"] )
    
 
+#main_df.to_csv("csv_fake_data_for_2024.csv", index=False, sep=",", encoding="utf-8")
 main_df.to_csv("csv_fake_data_for_2023.csv", index=False, sep=",", encoding="utf-8")
 
 # Convert the dataframe to txt file
 test_df = main_df.astype(str).agg(''.join, axis=1)
 test_df.to_csv("txt_fake_data_for_2023.txt", header=False, index=False, sep=",", encoding="utf-8")
+#test_df.to_csv("txt_fake_data_for_2024.txt", header=False, index=False, sep=",", encoding="utf-8")
 
+#print("fake data generated for 2024")
 print("fake data generated for 2023")
+
